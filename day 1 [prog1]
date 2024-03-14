@@ -1,0 +1,30 @@
+# Load required libraries
+install.packages("ggfortify")
+
+library(ggplot2)
+library(ggfortify)
+
+# Create the dataframe
+data <- data.frame(
+  Month = month.abb,
+  Economic_Condition = c("Good", "Good", "Good", "Good", "Fair", "Fair", "Good", "Bad", "Fair", "Good", "Bad", "Fair"),
+  Unemployment_Rate = c(10.7, 9.8, 10.2, 11.2, 15.75, 17.8, 19.4, 25.6, 18.6, 15.6, 26.7, 19.5)
+)
+
+# Stacked bar plot
+ggplot(data, aes(x = Month, y = Unemployment_Rate, fill = Economic_Condition)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Unemployment Rate by Month and Economic Condition", y = "Unemployment Rate") +
+  theme_minimal()
+
+# Pie plot
+ggplot(data, aes(x = "", y = Unemployment_Rate, fill = Economic_Condition)) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start = 0) +
+  theme_void()
+
+# Grouped bar plot
+ggplot(data, aes(x = Month, y = Unemployment_Rate, fill = Economic_Condition)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Unemployment Rate by Month and Economic Condition", y = "Unemployment Rate") +
+  theme_minimal()
