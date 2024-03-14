@@ -1,0 +1,14 @@
+data <- data.frame(
+  Year = c(2019, 2020, 2022, 2023, 2024),
+  Browser = rep("Chrome", 5),
+  Users = c(22.7, 25.8, 28.7, 30.5, 35.2)
+)
+
+# Pie plot
+pie(data$Users, labels = data$Year, main = "Internet Users by Year (Chrome)")
+
+# Mosaic plot
+mosaicplot(data$Users ~ data$Year, main = "Internet Users by Year (Chrome)")
+
+# Scatter plot
+plot(data$Year, data$Users, main = "Internet Users Over Years", xlab = "Year", ylab = "Users", type = "o")
