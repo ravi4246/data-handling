@@ -1,0 +1,30 @@
+# Load necessary library
+library(ggplot2)
+
+# Create the dataset
+data <- data.frame(
+  SCHOOL = c('A', 'A', 'A', 'B', 'B', 'B', 'C', 'C', 'C', 'D', 'D', 'D'),
+  GRADE_LEVEL = rep(c('Grade 1', 'Grade 2', 'Grade 3'), 4),
+  NUMBER_OF_STUDENTS = c(25, 30, 20, 22, 28, 18, 20, 25, 15, 28, 32, 24)
+)
+
+# 1. Mosaic Plot
+mosaic_data <- prop.table(table(data$SCHOOL, data$GRADE_LEVEL), margin = 1) * 100
+
+ggplot(data = as.data.frame(mosaic_data), aes(x = Var1, y = Freq, fill = Var2)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Mosaic Plot", x = "School", y = "Percentage of Students") +
+  theme_minimal()
+
+# 2. Histogram Plot
+ggplot(data, aes(x = NUMBER_OF_STUDENTS)) +
+  geom_histogram(binwidth = 5, fill = "skyblue", color = "black", aes(y = ..density..)) +
+  geom_density(alpha = 0.2, fill = "#FF6666") +
+  labs(title = "Histogram Plot", x = "Number of Students", y = "Density") +
+  theme_minimal()
+
+# 3. Scatter Plot
+ggplot(data, aes(x = SCHOOL, y = NUMBER_OF_STUDENTS, color = GRADE_LEVEL)) +
+  geom_point(size = 3) +
+  labs(title = "Scatter Plot", x = "School", y = "Number of Students", color = "Grade Level") +
+  theme_minimal()
