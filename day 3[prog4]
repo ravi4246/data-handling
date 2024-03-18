@@ -1,0 +1,42 @@
+# Load required package
+library(ggplot2)
+
+# Create the data
+month <- c("January", "February", "March", "April")
+facebook <- c(12000, 12500, 13000, 13500)
+instagram <- c(15000, 15500, 16000, 16500)
+twitter <- c(8000, 8200, 8400, 8600)
+
+followers <- data.frame(Month = month,
+                        Facebook = facebook,
+                        Instagram = instagram,
+                        Twitter = twitter)
+
+# Stacked bar plot
+ggplot(tidyr::pivot_longer(followers, -Month, names_to = "Platform", values_to = "Followers"),
+       aes(x = Month, y = Followers, fill = Platform)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Social Media Followers",
+       x = "Month",
+       y = "Followers",
+       fill = "Platform") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for better readability
+
+# Histogram plot
+ggplot(tidyr::pivot_longer(followers, -Month, names_to = "Platform", values_to = "Followers"),
+       aes(x = Followers, fill = Platform)) +
+  geom_histogram(binwidth = 500, position = "identity", alpha = 0.7) +
+  labs(title = "Social Media Followers Distribution",
+       x = "Followers",
+       y = "Frequency",
+       fill = "Platform")
+
+# Line plot
+ggplot(tidyr::pivot_longer(followers, -Month, names_to = "Platform", values_to = "Followers"),
+       aes(x = Month, y = Followers, color = Platform)) +
+  geom_line() +
+  labs(title = "Social Media Followers Trend",
+       x = "Month",
+       y = "Followers",
+       color = "Platform") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for better readability
