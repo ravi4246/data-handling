@@ -1,0 +1,45 @@
+# Load required package
+library(ggplot2)
+
+# Create the data
+year <- c(2019, 2020, 2021, 2022)
+city_A <- c(1200, 1150, 1230, 1180)
+city_B <- c(800, 850, 870, 900)
+city_C <- c(900, 950, 990, 950)
+
+rainfall <- data.frame(Year = year,
+                       City_A = city_A,
+                       City_B = city_B,
+                       City_C = city_C)
+
+# Scatter plot
+ggplot(tidyr::pivot_longer(rainfall, -Year, names_to = "City", values_to = "Rainfall"),
+       aes(x = Year, y = Rainfall, color = City)) +
+  geom_point() +
+  labs(title = "Annual Rainfall",
+       x = "Year",
+       y = "Rainfall (mm)",
+       color = "City")
+
+# Doughnut pie plot
+city_totals <- colSums(rainfall[, -1])
+pie_data <- data.frame(City = names(city_totals), Rainfall = city_totals)
+
+# For doughnut pie chart, you can use a bar plot instead
+ggplot(pie_data, aes(x = "", y = Rainfall, fill = City)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  labs(title = "Annual Rainfall Distribution",
+       x = NULL,
+       y = NULL,
+       fill = "City") +
+  theme_void()
+
+# Grouped bar plot
+ggplot(tidyr::pivot_longer(rainfall, -Year, names_to = "City", values_to = "Rainfall"),
+       aes(x = Year, y = Rainfall, fill = City)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Annual Rainfall",
+       x = "Year",
+       y = "Rainfall (mm)",
+       fill = "City")
