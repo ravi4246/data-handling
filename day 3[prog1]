@@ -1,0 +1,36 @@
+# First, let's create the data
+product <- c("Product X", "Product Y", "Product Z", "Product W")
+warehouse_A <- c(200, 150, 300, 100)
+warehouse_B <- c(150, 100, 250, 150)
+warehouse_C <- c(100, 50, 200, 200)
+
+inventory <- data.frame(Product = product,
+                        Warehouse_A = warehouse_A,
+                        Warehouse_B = warehouse_B,
+                        Warehouse_C = warehouse_C)
+
+# Line plot
+library(ggplot2)
+inventory_long <- tidyr::pivot_longer(inventory, -Product, names_to = "Warehouse", values_to = "Inventory")
+ggplot(inventory_long, aes(x = Product, y = Inventory, color = Warehouse)) +
+  geom_line() +
+  labs(title = "Product Inventory Levels",
+       x = "Product",
+       y = "Inventory",
+       color = "Warehouse")
+
+# Bar plot
+ggplot(inventory_long, aes(x = Product, y = Inventory, fill = Warehouse)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Product Inventory Levels",
+       x = "Product",
+       y = "Inventory",
+       fill = "Warehouse")
+
+# Box plot
+ggplot(inventory_long, aes(x = Warehouse, y = Inventory, fill = Warehouse)) +
+  geom_boxplot() +
+  labs(title = "Product Inventory Levels",
+       x = "Warehouse",
+       y = "Inventory",
+       fill = "Warehouse")
