@@ -1,0 +1,41 @@
+# Install necessary packages (if needed)
+# install.packages("ggplot2")
+install.packages("reshape2")
+
+# Load necessary libraries
+library(ggplot2)
+library(reshape2)
+# Data for 2022
+labels <- c("Undergraduate", "Postgraduate", "International")
+sizes <- c(15800, 5300, 3400)
+colors <- rainbow(length(labels))
+
+pie(sizes, labels = labels, col = colors, main="University Enrollment 2022")
+# Data
+enrollment <- data.frame(
+  Year = c(2019, 2020, 2021, 2022),
+  Undergraduate = c(15000, 15200, 15500, 15800),
+  Postgraduate = c(5000, 5100, 5200, 5300),
+  International = c(3000, 3200, 3300, 3400)
+)
+
+# Reshape data for plotting
+melted_enrollment <- melt(enrollment, id.vars = "Year")
+
+# Violin plot
+ggplot(melted_enrollment, aes(x = variable, y = value)) +
+  geom_violin(fill = "skyblue") +
+  labs(title = "University Enrollment Over Years", x = "Category", y = "Number of Students") +
+  theme_light()
+# Total students each year
+enrollment$Total <- rowSums(enrollment[,c('Undergraduate', 'Postgraduate', 'International')])
+
+# Order data
+enrollment <- enrollment[order(-enrollment$Total),]
+
+# Plotting what could conceptually be considered a "funnel" plot
+ggplot(enrollment, aes(x = reorder(Year, -Total), y = Total)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +  # Flip coordinates to make it look more like a funnel
+  labs(title = "University Enrollment Funnel Plot", x = "Year", y = "Total Enrollment") +
+  theme_light()
